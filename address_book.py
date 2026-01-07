@@ -25,14 +25,18 @@ with open("phonebook_raw.csv", encoding="utf-8-sig") as f:
     fio_c = " ".join(fio)
     fio_result = fio_c.split(" ")
 
-    
+
     contact[0] = fio_result[0]
     contact[1] = fio_result[1]
-    contact[2] = fio_result[2]
+
+    if len(fio_result) > 2:
+      contact[2] = fio_result[2]
+    else:
+      contact[2] = ''
 
     if len(contact) > 3:
-      phone = re.sub(pattern, format_phone, contact[3])
-      contact[3] = phone
+      phone = re.sub(pattern, format_phone, contact[5])
+      contact[5] = phone
 
 
 
