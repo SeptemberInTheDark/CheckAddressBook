@@ -10,7 +10,7 @@ def format_phone(match):
     phone += f" доб.{match.group(6)}"
   return phone
 
-pattern = r"(\+7|8)[\s\-\(]*(\d{3})[\s\-\)]*(\d{3})[\s\-]*(\d{2})[\s\-]*(\d{2})(?:[\s\(]*(?:доб\.?|ext\.?)[\s\)]*(\d+))?"
+pattern = r"(\+7|8)[\s\-\(]*(\d{3})[\s\-\)]*(\d{3})[\s\-]*(\d{2})[\s\-]*(\d{2})(?:[\s\(]*(?:доб\.?|ext\.?)[\s\)]*(\d+)[\s\)]*)?"
 
 with open("phonebook_raw.csv", encoding="utf-8-sig") as f:
   rows = csv.reader(f, delimiter=",")
@@ -23,7 +23,7 @@ with open("phonebook_raw.csv", encoding="utf-8-sig") as f:
     
     fio = contact[:3]
     fio_c = " ".join(fio)
-    fio_result = fio_c.split(" ")
+    fio_result = fio_c.split()
 
 
     contact[0] = fio_result[0]
@@ -44,7 +44,7 @@ merged = {}
 for contact in contacts_list[1:]:
   key = (contact[0], contact[1])
   if key in merged:
-    merged[key] = [merged[key][i] or contact[i] for i in range(len(merged[key]))]
+    merged[key] = [merged[key][i] if merged[key][i] else contact[i] for i in range(len(merged[key]))]
   else:
     merged[key] = contact
 
